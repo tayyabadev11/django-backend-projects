@@ -1,0 +1,57 @@
+:root,
+html[data-theme="light"] {
+  --primary: #8b1e2d;
+  --secondary: #5c0f1b;
+  --accent: #b3202f;
+  --primary-fg: #fff;
+  --link-fg: #8b1e2d;
+  --link-hover-color: #5c0f1b;
+  --link-selected-fg: #5c0f1b;
+  --header-color: #f7efe2;
+  --header-branding-color: #fff;
+  --header-bg: #5c0f1b;
+  --header-link-color: #f7efe2;
+  --breadcrumbs-fg: #f0d9d0;
+  --breadcrumbs-link-fg: #fff;
+  --breadcrumbs-bg: #8b1e2d;
+  --button-bg: #8b1e2d;
+  --button-hover-bg: #5c0f1b;
+  --default-button-bg: #8b1e2d;
+  --default-button-hover-bg: #5c0f1b;
+  --object-tools-bg: #8b1e2d;
+  --object-tools-hover-bg: #5c0f1b;
+  --selected-row: #f9e7e0;
+  --body-bg: #f7efe2;
+  --darkened-bg: #f1e5d3;
+}
+
+#header {
+  background: linear-gradient(135deg, #5c0f1b, #8b1e2d 60%, #b3202f);
+  border-bottom: 4px solid #3b1d1d;
+}
+
+#site-name a:link, #site-name a:visited {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.5rem;
+  letter-spacing: .02em;
+}
+
+.module h2, .module caption, .inline-group h2 {
+  background: #8b1e2d;
+  font-family: "Playfair Display", Georgia, serif;
+}
+
+.module { border-radius: 6px; }
+.button, input[type=submit], input[type=button], .submit-row input, a.button { border-radius: 4px; }
+.button.default, input[type=submit].default, .submit-row input.default { background: #8b1e2d; }
+.button.default:hover, input[type=submit].default:hover { background: #5c0f1b; }
+
+/* make the site name readable on the red header, including the login page */
+#header #branding h1,
+#site-name,
+#site-name a:link,
+#site-name a:visited {
+  color: #f7efe2 !important;
+  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  font-weight: 700;
+}

@@ -1,0 +1,4 @@
+{% extends "base.html" %}{% block title %}Login{% endblock %}
+{% block content %}<div class="wrap narrow"><div class="card auth"><h1>Welcome back</h1><p class="sub">Login to register for events and manage your bookings.</p>
+ <form method="post">{% csrf_token %}{{ form.as_p }}<input type="hidden" name="next" value="{{ next }}"><button class="btn block">Login</button></form>
+ <p class="alt">New here? <a href="{% url 'signup' %}"><u>Create an account</u></a></p></div></div>{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}{% block title %}{{ event.title }}{% endblock %}
+{% block content %}
+<div class="wrap detail" style="--c:{{ event.color }};--t:{{ event.tint }}">
+ <div><a class="back" href="{% url 'home' %}">&larr; All events</a>
+  <div class="hero-img"><img src="{{ event.image_url }}" alt="{{ event.title }}"><span class="tag">{{ event.get_category_display }}</span></div>
+  <h1>{{ event.title }}</h1>
+  <ul class="facts"><li><b>When</b><span>{{ event.start|date:"l, j F Y" }} at {{ event.start|date:"g:i A" }}</span></li><li><b>Where</b><span>{{ event.venue }}, {{ event.city }}</span></li>
+   <li><b>Price</b><span>{% if event.price %}Rs {{ event.price|floatformat:"0g" }} per ticket{% else %}Free entry{% endif %}</span></li><li><b>Seats</b><span>{{ event.seats_left }} of {{ event.capacity }} left</span></li></ul>
+  <h2>About this event</h2><p>{{ event.description|linebreaksbr }}</p></div>
+ <aside class="card reg">
+  {% if mine %}<h2>You are registered</h2><p>{{ mine.tickets }} ticket{{ mine.tickets|pluralize }} booked for {{ mine.name }}.</p><div class="codebox">Confirmation code<br><strong>{{ mine.code }}</strong></div>
+   {% if not event.is_past %}<form method="post" action="{% url 'cancel_registration' mine.pk %}">{% csrf_token %}<button class="btn danger block">Cancel my registration</button></form>{% endif %}
+  {% elif event.is_past %}<h2>Event ended</h2><p>Registration is closed because this event has already taken place.</p>
+  {% elif event.is_full %}<h2>Sold out</h2><p>All seats have been booked. Check back in case someone cancels.</p>
+  {% elif user.is_authenticated %}<h2>Register now</h2><p class="meta">{{ event.seats_left }} seats left</p>
+   <form method="post">{% csrf_token %}<label for="id_name">Full name</label>{{ form.name }}{{ form.name.errors }}<label for="id_phone">Phone (optional)</label>{{ form.phone }}{{ form.phone.errors }}<label for="id_tickets">Tickets (1 to 5)</label>{{ form.tickets }}{{ form.tickets.errors }}
+   <div class="total" id="total" data-price="{{ event.price|floatformat:0 }}"></div><button class="btn block">Confirm registration</button></form>
+   <script>const t=document.getElementById("id_tickets"),o=document.getElementById("total");if(t&&o){const p=+o.dataset.price,u=()=>o.textContent=p?"Total: Rs "+(p*(+t.value||1)).toLocaleString():"Total: Free";t.oninput=u;u()}</script>
+  {% else %}<h2>Register for this event</h2><p>Please login or create a free account to reserve your seat.</p>
+   <a class="btn block" href="{% url 'login' %}?next={{ request.path }}">Login</a><p style="margin-top:12px"><a class="btn alt block" href="{% url 'signup' %}">Create account</a></p>{% endif %}
+ </aside></div>
+{% endblock %}

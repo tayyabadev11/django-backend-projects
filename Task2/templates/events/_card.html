@@ -1,0 +1,7 @@
+<article class="ticket" style="--c:{{ e.color }};--t:{{ e.tint }}">
+ <a class="img" href="{% url 'event_detail' e.pk %}"><img src="{{ e.image_url }}" alt="{{ e.title }}" loading="lazy"><span class="tag">{{ e.get_category_display }}</span><span class="stamp"><b>{{ e.start|date:"j" }}</b>{{ e.start|date:"M" }}</span></a>
+ <div class="body"><h3><a href="{% url 'event_detail' e.pk %}">{{ e.title }}</a></h3>
+  <p class="meta">{{ e.venue }}, {{ e.city }}</p><p class="meta">{{ e.start|date:"l, g:i A" }}</p>
+  <div class="meter"><i style="width:{{ e.percent_full }}%"></i></div>
+  <div class="row"><span class="seats">{% if e.is_full %}Sold out{% else %}{{ e.seats_left }} seats left{% endif %}</span><span class="price">{% if e.price %}Rs {{ e.price|floatformat:"0g" }}{% else %}Free{% endif %}</span></div>
+  <a class="btn sm" href="{% url 'event_detail' e.pk %}">{% if e.is_full %}View details{% else %}View and register{% endif %}</a></div></article>

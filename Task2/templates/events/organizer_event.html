@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block title %}Attendees{% endblock %}
+{% block content %}
+<div class="wrap"><a class="back" href="{% url 'organizer' %}">&larr; Organizer dashboard</a><div class="row"><h1 class="ph">{{ event.title }}</h1><a class="btn" href="?csv=1">Download CSV</a></div>
+ <p class="sub">{{ event.start|date:"l, j F Y, g:i A" }} &middot; {{ event.venue }}, {{ event.city }}</p>
+ <div class="stats"><div class="stat"><b>{{ event.booked }}</b>Tickets booked</div><div class="stat"><b>{{ event.seats_left }}</b>Seats left</div><div class="stat"><b>{{ event.capacity }}</b>Capacity</div><div class="stat"><b>{{ regs|length }}</b>Registrations</div></div>
+ <div class="tw"><table><tr><th>Code</th><th>Name</th><th>User</th><th>Phone</th><th>Tickets</th><th>Status</th></tr>
+ {% for r in regs %}<tr><td>{{ r.code }}</td><td>{{ r.name }}</td><td>{{ r.user.username }}</td><td>{{ r.phone|default:"-" }}</td><td>{{ r.tickets }}</td><td><span class="badge {% if r.status == 'cancelled' %}x{% endif %}">{{ r.get_status_display }}</span></td></tr>
+ {% empty %}<tr><td colspan="6">No registrations yet.</td></tr>{% endfor %}</table></div></div>
+{% endblock %}

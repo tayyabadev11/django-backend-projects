@@ -1,0 +1,105 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>Staff panel | The Red Spoon</title>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Lora:wght@400;500;600&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body>
+  <header class="masthead">
+    <div class="wrap masthead-inner">
+      <a class="brand" href="{% url 'dashboard' %}" aria-label="Staff panel home">
+        {% include "restaurant/_logo.html" %}
+        <span class="brand-text">
+          <span class="brand-name">The Red Spoon</span>
+          <span class="note">staff panel</span>
+        </span>
+      </a>
+      <nav class="tabs" aria-label="Sections">
+        <button class="tab is-active" data-tab="report" type="button">Sales report</button>
+        <button class="tab" data-tab="orders" type="button">Orders</button>
+        <button class="tab" data-tab="inventory" type="button">Inventory</button>
+        <button class="tab" data-tab="bookings" type="button">Reservations</button>
+      </nav>
+      <div class="who">
+        <span>{{ user.get_username }}</span>
+        {% if user.is_superuser %}<a href="{% url 'admin:index' %}">Admin panel</a>{% endif %}
+        <form method="post" action="{% url 'dashboard-logout' %}">{% csrf_token %}<button type="submit" class="link-btn">Log out</button></form>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div id="alert" class="alert" hidden></div>
+
+    <section id="tab-report" class="panel is-active">
+      <div class="card">
+        <div class="bar">
+          <h2>Daily sales</h2>
+          <div class="bar-tools">
+            <input id="report-date" type="date" aria-label="Report date">
+            <button id="report-load" class="btn btn-quiet" type="button">Show report</button>
+            <a id="report-csv" class="btn" href="#">Download CSV</a>
+          </div>
+        </div>
+        <div id="stats" class="stats"></div>
+        <h3>Top selling items</h3>
+        <div class="table-wrap">
+          <table id="top-table">
+            <thead><tr><th>Dish</th><th class="num">Sold</th><th class="num">Revenue</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-orders" class="panel">
+      <div class="card">
+        <div class="bar">
+          <h2>Orders</h2>
+          <div class="bar-tools">
+            <select id="order-filter" aria-label="Filter by status"><option value="">All statuses</option></select>
+            <button id="orders-refresh" class="btn btn-quiet" type="button">Refresh</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table id="orders-table">
+            <thead><tr><th>No.</th><th>Time</th><th>Guest</th><th>Table</th><th>Items</th><th class="num">Total</th><th>Status</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-inventory" class="panel">
+      <div class="card">
+        <h2>Inventory</h2>
+        <p class="muted">Cards turn orange when stock reaches the reorder level.</p>
+        <div id="inventory-grid" class="inv-grid"></div>
+      </div>
+    </section>
+
+    <section id="tab-bookings" class="panel">
+      <div class="card">
+        <div class="bar">
+          <h2>Upcoming reservations</h2>
+          <button id="bookings-refresh" class="btn btn-quiet" type="button">Refresh</button>
+        </div>
+        <div class="table-wrap">
+          <table id="bookings-table">
+            <thead><tr><th>When</th><th>Until</th><th>Guest</th><th>Phone</th><th class="num">Guests</th><th>Table</th><th>Status</th><th></th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  {% include "restaurant/_footer.html" %}
+  <script src="{% static 'js/dashboard.js' %}"></script>
+</body>
+</html>

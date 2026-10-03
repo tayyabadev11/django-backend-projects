@@ -1,0 +1,19 @@
+{% load static %}<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}Event Registration System{% endblock %}</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Lora:wght@400;500;600&family=Playfair+Display:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'events/css/style.css' %}"></head><body>
+<div class="strip"><div class="wrap"><span>Browse, book and manage events in one place</span><span>Free cancellation before an event starts</span></div></div>
+<header class="site"><div class="wrap bar">
+ <a class="brand" href="{% url 'home' %}"><svg class="mark" viewBox="0 0 48 48"><path d="M6 14h36v7a4 4 0 0 0 0 8v7H6v-7a4 4 0 0 0 0-8z" fill="#fff" stroke="#2a1218" stroke-width="2.5"/><path d="M30 14v20" stroke="#6d0f25" stroke-width="2.5" stroke-dasharray="3 3"/><circle cx="18" cy="24" r="3.5" fill="#6d0f25"/></svg><span><b>Event Registration System</b><small>find it, book it, show up</small></span></a>
+ <nav><a class="nb" href="{% url 'home' %}">Events</a>
+ {% if user.is_authenticated %}<a class="nb" href="{% url 'my_registrations' %}">My registrations</a>{% if user.is_staff %}<a class="nb" href="{% url 'organizer' %}">Organizer</a>{% endif %}
+ <form method="post" action="{% url 'logout' %}" class="inl">{% csrf_token %}<button class="nb fill" type="submit">Logout ({{ user.username }})</button></form>
+ {% else %}<a class="nb" href="{% url 'login' %}">Login</a><a class="nb fill" href="{% url 'signup' %}">Sign up</a>{% endif %}</nav></div></header>
+{% if messages %}<div class="wrap">{% for m in messages %}<div class="msg {{ m.tags }}">{{ m }}</div>{% endfor %}</div>{% endif %}
+<main>{% block content %}{% endblock %}</main>
+<footer><div class="wrap"><div class="cols"><div><h4>Event Registration System</h4><p>Discover events, reserve your seat and manage your bookings. Organizers get a simple dashboard for attendees.</p></div>
+ <div><h4>Explore</h4><a href="{% url 'home' %}">All events</a><a href="{% url 'my_registrations' %}">My registrations</a><a href="{% url 'signup' %}">Create account</a></div>
+ <div><h4>Organizers</h4><a href="{% url 'organizer' %}">Organizer dashboard</a><a href="/admin/">Admin panel</a></div></div>
+ <div class="copy">&copy; 2026 Event Registration System. All rights reserved.</div></div></footer>
+</body></html>

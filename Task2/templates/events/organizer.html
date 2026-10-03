@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% block title %}Organizer dashboard{% endblock %}
+{% block content %}
+<div class="wrap"><div class="row"><div><h1 class="ph">Organizer dashboard</h1><p class="sub">All events and their registrations.</p></div><a class="btn" href="{% url 'admin:events_event_add' %}">Add new event</a></div>
+ <div class="tw"><table><tr><th>Event</th><th>Date</th><th>City</th><th>Booked</th><th>Status</th><th></th></tr>
+ {% for e in events %}<tr><td>{{ e.title }}</td><td>{{ e.start|date:"j M Y, g:i A" }}</td><td>{{ e.city }}</td><td>{{ e.booked }} / {{ e.capacity }}</td>
+  <td><span class="badge {% if not e.is_published %}x{% endif %}">{% if e.is_published %}Published{% else %}Hidden{% endif %}</span></td>
+  <td><a class="btn sm" href="{% url 'organizer_event' e.pk %}">Attendees</a> <a class="btn sm alt" href="{% url 'admin:events_event_change' e.pk %}">Edit</a></td></tr>{% endfor %}</table></div></div>
+{% endblock %}

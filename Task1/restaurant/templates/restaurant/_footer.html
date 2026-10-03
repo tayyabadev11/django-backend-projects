@@ -1,0 +1,27 @@
+<footer class="site-foot">
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      {% include "restaurant/_logo.html" %}
+      <div>
+        <p class="foot-name">The Red Spoon</p>
+        <p class="note">slow cooked, served warm</p>
+      </div>
+    </div>
+    <div>
+      <h3>Opening hours</h3>
+      <p>Every day, 12:00 to 23:00</p>
+      <p>A booking holds your table for 90 minutes.</p>
+    </div>
+    <div>
+      <h3>Around the site</h3>
+      <ul>
+        <li><a href="{% url 'home' %}" data-goto="menu">Menu and order</a></li>
+        <li><a href="{% url 'home' %}#reserve" data-goto="reserve">Book a table</a></li>
+        <li><a href="{% url 'dashboard' %}">Staff login</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap foot-base">
+    <span>The Red Spoon Restaurant Management System</span>
+  </div>
+</footer>

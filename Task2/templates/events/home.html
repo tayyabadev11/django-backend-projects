@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="wrap hero"><div><h1>Find an event. <em>Save your seat.</em></h1>
+ <p>Workshops, concerts, food festivals, sports days and meetups. Pick what you like, register in a minute and keep every booking in one place.</p>
+ <div class="cta"><a class="btn" href="#events">Browse events</a>{% if user.is_authenticated %}<a class="btn alt" href="{% url 'my_registrations' %}">My registrations</a>{% else %}<a class="btn alt" href="{% url 'signup' %}">Create account</a>{% endif %}</div></div>
+ <div class="polas">{% for e in featured %}<a class="pola p{{ forloop.counter }}" href="{% url 'event_detail' e.pk %}"><img src="{{ e.image_url }}" alt=""><span>{{ e.title }}</span></a>{% endfor %}</div></section>
+<div class="wrap"><hr class="dash" id="events">
+ <form class="search" method="get"><input name="q" value="{{ q }}" placeholder="Search by event, venue or city"><input type="hidden" name="category" value="{{ cat }}"><button class="btn">Search</button></form>
+ <div class="chips"><a class="chip {% if not cat %}on{% endif %}" href="{% url 'home' %}">All events</a>{% for k, v in categories %}<a class="chip {% if cat == k %}on{% endif %}" href="?category={{ k }}">{{ v }}</a>{% endfor %}</div>
+ <div class="grid">{% for e in events %}{% include "events/_card.html" %}{% empty %}<p class="empty">No upcoming events match your search.</p>{% endfor %}</div></div>
+{% endblock %}

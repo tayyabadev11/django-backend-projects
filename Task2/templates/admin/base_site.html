@@ -1,0 +1,5 @@
+{% extends "admin/base.html" %}
+{% block title %}Event Registration System{% endblock %}
+{% block branding %}<h1 id="site-name"><a href="{% url 'admin:index' %}">Event Registration System</a></h1>{% endblock %}
+{% block extrastyle %}{{ block.super }}<style>:root{--primary:#6d0f25;--secondary:#8f1b34;--accent:#e8a3b1;--header-bg:#6d0f25;--header-color:#fff;--header-branding-color:#fff;--link-fg:#8f1b34;--link-hover-color:#6d0f25;--button-bg:#8f1b34;--button-hover-bg:#6d0f25;--default-button-bg:#8f1b34;--default-button-hover-bg:#6d0f25;--object-tools-bg:#8f1b34;--object-tools-hover-bg:#6d0f25}</style>{% endblock %}
+{% block nav-global %}<a href="/organizer/" style="color:#fff;margin-left:20px">Organizer dashboard</a>{% endblock %}

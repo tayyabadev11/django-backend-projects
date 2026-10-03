@@ -1,0 +1,43 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Staff login | The Red Spoon</title>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Lora:wght@400;500;600&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <header class="masthead">
+    <div class="wrap masthead-inner">
+      <a class="brand" href="{% url 'home' %}" aria-label="The Red Spoon home">
+        {% include "restaurant/_logo.html" %}
+        <span class="brand-text">
+          <span class="brand-name">The Red Spoon</span>
+          <span class="note">staff only</span>
+        </span>
+      </a>
+    </div>
+  </header>
+  <main class="wrap narrow">
+    <form method="post" class="card">
+      {% csrf_token %}
+      <h2>Staff login</h2>
+      {% if form.non_field_errors %}
+        <p class="msg is-error">{{ form.non_field_errors.0 }}</p>
+      {% endif %}
+      <label>Username
+        <input type="text" name="username" autocomplete="username" required autofocus>
+      </label>
+      <label>Password
+        <input type="password" name="password" autocomplete="current-password" required>
+      </label>
+      <input type="hidden" name="next" value="{{ next }}">
+      <button class="btn" type="submit">Sign in</button>
+      <p class="muted"><a href="{% url 'home' %}">Back to the restaurant</a></p>
+    </form>
+  </main>
+
+  {% include "restaurant/_footer.html" %}
+</body>
+</html>

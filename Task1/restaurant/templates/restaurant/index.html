@@ -1,0 +1,131 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>The Red Spoon | Hot plates, warm tables</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%238b1e2d'/%3E%3Cellipse cx='32' cy='23' rx='10' ry='13' fill='%23f7efe2'/%3E%3Cpath d='M29 35h6l-1 17q-2 4-4 0z' fill='%23f7efe2'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Lora:wght@400;500;600&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <div class="topstrip">
+    <div class="wrap topstrip-inner">
+      <span>Open every day, 12:00 to 23:00</span>
+      <span>Order from your seat or book a table ahead</span>
+    </div>
+  </div>
+  <header class="masthead">
+    <div class="wrap masthead-inner">
+      <a class="brand" href="{% url 'home' %}" aria-label="The Red Spoon home">
+        {% include "restaurant/_logo.html" %}
+        <span class="brand-text">
+          <span class="brand-name">The Red Spoon</span>
+          <span class="note">slow cooked, served warm</span>
+        </span>
+      </a>
+      <nav class="tabs" aria-label="Sections">
+        <button class="tab is-active" data-tab="menu" type="button">Menu and Order</button>
+        <button class="tab" data-tab="reserve" type="button">Reservations</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="tab-menu" class="panel is-active">
+      <div class="hero">
+        <div class="hero-copy">
+          <h2>Hot plates, warm tables.</h2>
+          <p>Choose your dishes, add them to the order and we start cooking. Whatever shows as sold out has run short in the kitchen, so everything you can add is something we can make.</p>
+          <div class="hero-actions">
+            <a class="btn" href="#menu-start">See the menu</a>
+            <button class="btn btn-quiet" type="button" data-goto="reserve">Book a table</button>
+          </div>
+        </div>
+        <div class="hero-pics" aria-hidden="true">
+          <figure><img src="{% static 'images/margherita-pizza.svg' %}" alt=""><figcaption>Margherita</figcaption></figure>
+          <figure><img src="{% static 'images/tiramisu.svg' %}" alt=""><figcaption>Tiramisu</figcaption></figure>
+          <figure><img src="{% static 'images/lemonade.svg' %}" alt=""><figcaption>Lemonade</figcaption></figure>
+        </div>
+      </div>
+      <div id="menu-start" class="menu-layout">
+        <div>
+          <div id="filters" class="filters" aria-label="Menu categories"></div>
+          <div id="menu-grid" class="grid"><p class="muted">Loading the menu...</p></div>
+        </div>
+
+        <aside class="card cart" aria-label="Your order">
+          <h2>Your order</h2>
+          <div id="cart-lines"><p class="muted">Nothing here yet. Add a dish from the menu.</p></div>
+          <p class="cart-total"><span>Total</span><strong id="cart-total">Rs. 0</strong></p>
+          <label>Your name
+            <input id="cust-name" type="text" maxlength="80" placeholder="Name for the order">
+          </label>
+          <label>Table number <span class="muted">(if you are seated)</span>
+            <input id="cust-table" type="number" min="1" max="99" placeholder="e.g. 4">
+          </label>
+          <button id="place-order" class="btn" type="button">Place order</button>
+          <p id="order-msg" class="msg" role="status"></p>
+        </aside>
+      </div>
+    </section>
+
+    <section id="tab-reserve" class="panel">
+      <div class="hero hero-slim">
+        <div class="hero-copy">
+          <h2>Save your table.</h2>
+          <p>Tell us how many of you are coming and when. We check the tables, hold one for 90 minutes and give you a slip to show at the door.</p>
+        </div>
+      </div>
+      <div class="reserve-layout">
+        <form id="reserve-form" class="card" novalidate>
+          <h2>Book a table</h2>
+          <p class="muted">Open daily from 12:00 to 23:00. Each booking holds your table for 90 minutes.</p>
+          <label>Name
+            <input id="r-name" type="text" maxlength="80" required>
+          </label>
+          <label>Phone
+            <input id="r-phone" type="tel" maxlength="30">
+          </label>
+          <div class="row">
+            <label>Guests
+              <input id="r-guests" type="number" min="1" max="12" value="2" required>
+            </label>
+            <label>Date and time
+              <input id="r-start" type="datetime-local" step="900" required>
+            </label>
+          </div>
+          <button id="check-tables" class="btn btn-quiet" type="button">Check free tables</button>
+          <div id="table-choices" class="choices" aria-live="polite"></div>
+          <button id="reserve-btn" class="btn" type="submit">Confirm reservation</button>
+          <p id="reserve-msg" class="msg" role="status"></p>
+        </form>
+
+        <div class="side">
+        <aside class="card know">
+          <h2>Good to know</h2>
+          <ul>
+            <li>Tables seat 2, 4, 6 or 8 guests. We give your party the smallest table it fits.</li>
+            <li>Pick Check free tables to see what is open, or just confirm and we choose for you.</li>
+            <li>If the time is taken, the form tells you so and you can try another slot.</li>
+          </ul>
+        </aside>
+
+        <aside class="card ticket" id="ticket" hidden>
+          <h2>Reservation confirmed</h2>
+          <dl id="ticket-body"></dl>
+          <p class="note">Please arrive a few minutes early. We will keep the table for you.</p>
+        </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  {% include "restaurant/_footer.html" %}
+
+  <script src="{% static 'js/app.js' %}"></script>
+</body>
+</html>
